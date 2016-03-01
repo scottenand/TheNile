@@ -1,32 +1,45 @@
 <?php
 
-include("classes/table.php");
-
 $CLASSES = array(
-	"User",
+"Entity" => array(
+	"User" => array(
 		"Person",
-		"Company",
+		"Company"
+	),
+	"Address",
+	"Phone",
+	"Creditcard",
+	"UserRating",
 
-		"Address",
-		"Phone",
-		"Creditcard",
-		"UserRating",
-
-
-	"Product",
+	"Product" => array(
 		"Purchase",
 		"Auction",
+	),
+	"Category",
+		"PartOf",
+		"ParentCategory",
+	"RatedBy",
+	"Acquired",
+		"PurchasedBy"
+));
 
-		"Category",
-			"PartOf",
-			"ParentCategory",
-		"RatedBy",
-		"Acquired",
-			"PurchasedBy"
-);
-
-foreach($CLASSES as $c) {
-	require_once("classes/" . $c . ".php");
+// INCLUDE ABOVE CLASSES : up to 3 levels deep
+define("FOLDER", "classes/");
+foreach($CLASSES as $i => $c) {
+	if(is_array($c)) {
+		require_once(FOLDER . $i . ".php");
+		foreach($c as $ci => $cn) {
+			if(is_array($cn)) {
+				require_once(FOLDER . $ci . ".php");
+				foreach($cn as $cnn) {
+					if(is_string($cnn))
+						require_once(FOLDER . $cnn . ".php");
+				}
+			} elseif(is_string($cn))
+				require_once(FOLDER . $cn . ".php");
+		}
+	} elseif(is_string($c))
+		require_once(FOLDER . $c . ".php");
 }
 
 ?>
