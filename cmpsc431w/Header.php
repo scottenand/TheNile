@@ -26,7 +26,7 @@ $CLASSES = array(
 );
 
 foreach($CLASSES as $c) {
-	require_once("classes/"$c . ".php");
+	require_once("classes/" . $c . ".php");
 }
 
 ?>
