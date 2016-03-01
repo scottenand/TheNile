@@ -29,8 +29,19 @@ function logMsg($msg, $to = LOG_OUTPUT, $lvl = LVL_DEFAULT) {
 function createTables($classes) {
 	$tables = array();
 
-	foreach($classes as $c) {
-		$tables = array_merge($tables, $c::create_table());
+	foreach($classes as $i => $c) {
+		if(is_array($c)) {
+			foreach($c as $ci => $cn) {
+				if(is_array($cn)) {
+					foreach($cn as $cnn) {
+						if(is_string($cnn))
+							$tables = array_merge($tables, $cnn::create_table());
+					}
+				} elseif(is_string($cn))
+					$tables = array_merge($tables, $cn::create_table());
+			}
+		} elseif(is_string($c))
+			$tables = array_merge($tables, $c::create_table());
 	}
 
 	$d = new database();

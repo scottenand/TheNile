@@ -5,15 +5,54 @@ require_once("MySQL.php");
 abstract class Entity {
 	protected $attrs;
 
+	/**
+	 * static protected getPrimaryAttr : Returns string representation of this table's primary attribute.
+	 * @return string primary attribute(s) (commma , delimited for multiple attributes)
+	 */
 	abstract static protected function getPrimaryAttr();
+
+	/**
+	 * static protected getTableName : Returns string representation of this table's table name.
+	 * @return string SQL table name
+	 */
 	abstract static protected function getTableName();
+
+	/**
+	 * static public getAttributeList : Returns array of strings representing all attributes of this class (including parent classes)
+	 * @return array attributes associated with this table 
+	 */
 	abstract static public function getAttributeList();
+
+	/**
+	 * protected function getSQLInfo() :
+	 * Returns 3d array [ TABLE NAME ] [ ATTRIBUTE NAME ] [ KEY ] = STRING
+	 * Where ATTRIBUTE NAME = {
+	 * 		{'FOREIGN'['keys'] = string / array representing the foreign keys, ['ref'] = string / array representing the foreign key REFRENCES},
+	 * 		{'UNIQUE'['keys'] = similar to FOREIGN}}
+	 * Where KEY = {
+	 * 		'val' = (value),
+	 * 		'type' = (SQL data type),
+	 * 		[ 'restrictions' ] = (eg. NOT NULL),
+	 * 		[ 'change' ] = (isset only when there is a discrepancy between local data and SQL data)}
+	 * @return 3d array representing the full sql information of this object
+	 */
 	abstract protected function getSQLInfo();
+
+	/**
+	 * static protected getSQLInfo() :
+	 * Returns the static portion of the SQL information, that is what can be given without 
+	 * @return [type] [description]
+	 */
 	abstract static protected function getStaticSQLInfo();
-	abstract static public function getParentClass();
+
 	//abstract public function toString();
 	//abstract protected function toArray();
 
+
+	/**
+	 * __construct($args) : FULL constructor. No subclass needs to implement another constructor.
+	 * @param [ int | array ] $args : integer primary key or single dimensional array of attributes that define 
+	 */
 	public function __construct($args) {
 		$info = $this->getSQLInfo();
 
