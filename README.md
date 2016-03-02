@@ -1,12 +1,12 @@
 # TheNile
 The Nile code.
 
-To create the tables on a MySQL InnoDB database, first edit "classes/MySQL.php" 's constructor's default values.
+To create the tables on a MySQL InnoDB database, first edit "classes/MySQL.php" 's constructor's default values.<br />
 Once you have entered the default MySQL database (ip, username, password, and db), simply run "php setup/setup.php" on your command line.
 
 ## Requirements:
-PHP >= 5.3.0
-MySQL InnoDB
+PHP >= 5.3.0<br />
+MySQL InnoDB<br />
 mysqli PHP module
 
 ## Classes:
