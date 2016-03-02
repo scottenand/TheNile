@@ -10,24 +10,24 @@ MySQL InnoDB
 mysqli PHP module
 
 ## Classes:
-database
-Entity
-	User
-		Person
-		Company
-	Address
-	Phone
-	Creditcard
-	UserRating
-	Product
-		Purchase
-		Auction
-	Category
-		PartOf
-		ParentCategory
-		RatedBy
-		Acquired
-			PurchasedBy
+database<br />
+Entity<br />
+<blockquote>	User<br />
+	<blockquote>	Person<br />
+		Company</blockquote><br />
+	Address<br />
+	Phone<br />
+	Creditcard<br />
+	UserRating<br />
+	Product<br />
+	<blockquote>	Purchase<br />
+		Auction</blockquote><br />
+	Category<br />
+	<blockquote>	PartOf<br />
+		ParentCategory</blockquote><br />
+	RatedBy<br />
+	Acquired<br />
+	<blockquote>	PurchasedBy</blockquote><br />
 
 
 Functions:
