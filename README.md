@@ -30,7 +30,7 @@ Entity<br />
 		ParentCategory</blockquote>
 	RatedBy<br />
 	Acquired<br />
-	<blockquote>	PurchasedBy</blockquote><br />
+	<blockquote>	PurchasedBy</blockquote>
 </blockquote>
 
 Functions:<br />
