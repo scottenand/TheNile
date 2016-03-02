@@ -30,8 +30,7 @@ Entity<br />
 	<blockquote>	PurchasedBy</blockquote><br />
 
 
-Functions:
-Entity:<br />
+functions:<br />
 <blockquote>
 	__construct($args)<br />
 	static protected getPrimaryAttr() : string<br />
