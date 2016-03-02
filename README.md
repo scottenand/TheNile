@@ -28,18 +28,21 @@ Entity<br />
 	RatedBy<br />
 	Acquired<br />
 	<blockquote>	PurchasedBy</blockquote><br />
+</blockquote>
 
-
-functions:<br />
+Functions:<br />
 <blockquote>
-	__construct($args)<br />
-	static protected getPrimaryAttr() : string<br />
-	static protected getTableName() : string<br />
-	static public getAttributeList() : array ( strings )<br />
-	static protected getStaticSQLInfo() : array [ TABLE NAME ] [ ATTRIBUTE NAME ] [ KEY ] = string<br />
-	static public create_table() : string<br />
-	protected getSQLInfo() : array [ TABLE NAME ] [ ATTRIBUTE NAME ] [ KEY ] = string<br />
-	public getID() : integer / array( attributes )<br />
-	public save() : boolean<br />
+	Entity:<br />
+	<blockquote>
+		__construct($args)<br />
+		static protected getPrimaryAttr() : string<br />
+		static protected getTableName() : string<br />
+		static public getAttributeList() : array ( strings )<br />
+		static protected getStaticSQLInfo() : array [ TABLE NAME ] [ ATTRIBUTE NAME ] [ KEY ] = string<br />
+		static public create_table() : string<br />
+		protected getSQLInfo() : array [ TABLE NAME ] [ ATTRIBUTE NAME ] [ KEY ] = string<br />
+		public getID() : integer / array( attributes )<br />
+		public save() : boolean<br />
+	</blockquote>
 </blockquote>
     
