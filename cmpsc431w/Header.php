@@ -6,7 +6,8 @@ $CLASSES = array(
 		"Person",
 		"Company"
 	),
-	"Address",
+	"Located",
+		"Address",
 	"Phone",
 	"Creditcard",
 	"UserRating",
@@ -31,7 +32,7 @@ foreach($CLASSES as $i => $c) {
 		foreach($c as $ci => $cn) {
 			if(is_array($cn)) {
 				require_once(FOLDER . $ci . ".php");
-				foreach($cn as $cnn) {
+				foreach($cn as $cii => $cnn) {
 					if(is_string($cnn))
 						require_once(FOLDER . $cnn . ".php");
 				}
