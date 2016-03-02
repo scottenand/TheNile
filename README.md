@@ -1,6 +1,9 @@
 # TheNile
 The Nile code.
 
+To get started: go to a directory you would like to have the repository (i.e Desktop) and open up a terminal window to type:
+	git clone https://github.com/TheNile431w/TheNile.git
+
 To create the tables on a MySQL InnoDB database, first edit "classes/MySQL.php" 's constructor's default values.<br />
 Once you have entered the default MySQL database (ip, username, password, and db), simply run "php setup/setup.php" on your command line.
 
