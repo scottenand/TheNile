@@ -99,16 +99,26 @@ abstract class Entity {
 	}
 
 	public function getID() {
-		return $attrs[static::getTableName()][static::getPrimaryAttr()]['val'];
-	}
+		if(count(explode(",", static::getPrimaryAttr())) == 1) {
+			return $this->attrs[static::getTableName()][static::getPrimaryAttr()]['val'];
+		} else {
+			$pAttrs = array();
 
-	public function query($id) {
-		// CONNECT TO DATABASE, QUERY TABLE ENTITYNAME FOR PRIMARY KEY ID;
+			foreach(explode(",", static::getPrimaryAttr()) as $pAttr) {
+				if($this->attrs[static::getTableName()][trim($pAttr)]['val'] != false)
+					$pAttrs[$pAttr] = $this->attrs[static::getTableName()][trim($pAttr)]['val'];
+			}
+
+			if(count($pAttrs[$pAttr]) > 0)
+				return $pAttrs;
+			return false;
+		}
 	}
 
 	public function save() {
 		$query = array();
 		if($this->getID() == false) {
+			// New Provider
 			foreach($this->attrs as $table => $t) {
 				$validAttrs = array();
 				foreach($t as $attr => $a) {
@@ -116,7 +126,7 @@ abstract class Entity {
 						$validAttrs[$attr] = $this->attrs[$table][$attr]['val'];
 					}
 				}
-				$query[] = "INSERT INTO " . $table . "(" . implode(",", array_keys($validAttrs)) . ") OUTPUT INSERTED.* VALUES (" . implode(",", $validAttrs) . ");";
+				$query[$table] = "INSERT INTO " . $table . "(" . implode(",", array_keys($validAttrs)) . ") OUTPUT INSERTED.* VALUES (" . implode(",", $validAttrs) . ");";
 			}
 		} else {
 			foreach($this->attrs as $table => $t) {
@@ -124,19 +134,38 @@ abstract class Entity {
 				foreach($t as $attr => $a) {
 					if($this->attrs[$table][$attr]['val'] != false AND isset($this->attrs[$table][$attr]['change'])) {
 						unset($this->attrs[$table][$attr]['change']);
-						$validAttrs[] = $attr . "=" . $this->attrs[$table][$attr]['val'];
+						$validAttrs[$attr] = $attr . "=" . $this->attrs[$table][$attr]['val'];
 					}
 				}
-				$query[] = "UPDATE " . $table . " SET " . implode(",", $validAttrs) . " WHERE " . static::getPrimaryAttr() . "=" . $this->getID() . ";";
+				$query[$table] = "UPDATE " . $table . " SET " . implode(",", $validAttrs) . " WHERE " . static::getPrimaryAttr() . "=" . $this->getID() . ";";
 			}
 		}
 
 		$db = new database();
 		$db->open();
-		foreach($query as $q) {
-			$db->query($q);
+		foreach($query as $t => $q) {
+			$r = $db->query($q);
+			$r = $r->fetchAll();
+			var_dump($r);
 		}
 		$db->close();
+	}
+
+	private function setAttrs($args, $changeVal = NULL) {
+		foreach($args as $a => $v) {
+			if(in_array($a, static::getAttributeList())) {
+				$t = static::getTableName(); $prev = NULL;
+				while($t != 'Entity' AND in_array($a, $t::getAttributeList())) {
+					$prev = $t;
+					$t = get_parent_class($t);
+				}
+				$this->attrs[$prev][$a]['val'] = $args[$a];
+				if(!is_null($changeVal))
+					$this->attrs[$prev][$a]['change'] = $changeVal;
+				elseif(isset($this->attrs[$prev][$a]['change']))
+					unset($this->attrs[$prev][$a]['change']);
+			}
+		}
 	}
 
 	public static function create_table() {

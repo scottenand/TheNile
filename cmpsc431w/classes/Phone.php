@@ -6,7 +6,7 @@ class Phone extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('phone_id', 'uid', 'description', 'defaultPhone', 'pnum');
+		return array('pnum', 'uid', 'description', 'defaultPhone');
 	}
 
 	/**
@@ -28,19 +28,16 @@ class Phone extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['phone_id']['type'] = "KEY";
+		$attrs[$table]['pnum']['type'] = "VARCHAR(10)";
 		$attrs[$table]['uid']['type'] = "KEY";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['defaultPhone']['type'] = "INT(11)";
-		$attrs[$table]['pnum']['type'] = "TEXT";
 
-		$attrs[$table]['phone_id']['restrictions'] = "AUTO_INCREMENT";
 		$attrs[$table]['uid']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultPhone']['restrictions'] = "NOT NULL";
-		$attrs[$table]['pnum']['restrictions'] = "NOT NULL";
 
 		$attrs[$table]['FOREIGN']['keys'] = 'uid';
-		$attrs[$table]['FOREIGN']['ref'] = User::getTableName() . '(' . User::getPrimaryAttr() . ')';
+		$attrs[$table]['FOREIGN']['ref'] = User::getTableName() . '(' . User::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE';
 
 		return $attrs;
 	}
@@ -50,7 +47,7 @@ class Phone extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "phone_id";
+		return "pnum";
 	}
 }
 

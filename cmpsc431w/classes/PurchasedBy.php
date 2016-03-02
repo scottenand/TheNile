@@ -6,7 +6,7 @@ class PurchasedBy extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('pid', 'uid', 'unitPrice', 'qty', 'time', 'acq_id');
+		return array('pid', 'uid', 'time', 'unitPrice', 'qty', 'acq_id');
 	}
 
 	/**
@@ -38,9 +38,9 @@ class PurchasedBy extends Entity {
 			'uid',
 			'acq_id');
 		$attrs[$table]['FOREIGN']['ref'] = array(
-			Product::getTableName() . "(" . Product::getPrimaryAttr() . ")",
-			User::getTableName() . "(" . User::getPrimaryAttr() . ")",
-			Acquired::getTableName() . "(" . Acquired::getPrimaryAttr() . ")");
+			Product::getTableName() . "(" . Product::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT",
+			User::getTableName() . "(" . User::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT",
+			Acquired::getTableName() . "(" . Acquired::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT");
 
 		return $attrs;
 	}

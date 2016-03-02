@@ -1,12 +1,12 @@
 <?php
 
-class UserRating extends Entity {
+class Located extends Entity {
 	public function __construct($args) {
 		parent::__construct($args);
 	}
 
 	public static function getAttributeList() {
-		return array('rater', 'ratee', 'rating', 'description');
+		return array('zip', 'city', 'state');
 	}
 
 	/**
@@ -26,27 +26,22 @@ class UserRating extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['rater']['type'] = "KEY";
-		$attrs[$table]['ratee']['type'] = "KEY";
-		$attrs[$table]['rating']['type'] = "INT(11)";
-		$attrs[$table]['description']['type'] = "TEXT";
+		$attrs[$table]['zip']['type'] = "VARCHAR(5)";
+		$attrs[$table]['city']['type'] = "TEXT";
+		$attrs[$table]['state']['type'] = "TEXT";
 
-		$attrs[$table]['FOREIGN']['keys'] = array(
-			'rater',
-			'ratee');
-		$attrs[$table]['FOREIGN']['ref'] = array(
-			User::getTableName() . "(" . User::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT",
-			User::getTableName() . "(" . User::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE");
+		$attrs[$table]['city']['restrictions'] = "NOT NULL";
+		$attrs[$table]['state']['restrictions'] = "NOT NULL";
 
 		return $attrs;
 	}
 
 	public static function getTableName() {
-		return "UserRating";
+		return "Located";
 	}
 
 	public static function getPrimaryAttr() {
-		return "rater, ratee";
+		return "zip";
 	}
 }
 

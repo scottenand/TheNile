@@ -33,8 +33,8 @@ class PartOf extends Entity {
 			"cid",
 			"pid");
 		$attrs[$table]['FOREIGN']['ref'] = array(
-			Category::getTableName() . "(" . Category::getPrimaryAttr() . ")",
-			Product::getTableName() . "(" . Product::getPrimaryAttr() . ")");
+			Category::getTableName() . "(" . Category::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
+			Product::getTableName() . "(" . Product::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE");
 
 		return $attrs;
 	}

@@ -31,8 +31,11 @@ function createTables($classes) {
 
 	foreach($classes as $i => $c) {
 		if(is_array($c)) {
+			if($i != "Entity")
+				$tables = array_merge($tables, $i::create_table());
 			foreach($c as $ci => $cn) {
 				if(is_array($cn)) {
+					$tables = array_merge($tables, $ci::create_table());
 					foreach($cn as $cnn) {
 						if(is_string($cnn))
 							$tables = array_merge($tables, $cnn::create_table());

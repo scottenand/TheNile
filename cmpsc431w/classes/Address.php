@@ -6,7 +6,7 @@ class Address extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('addr_id', 'uid', 'description', 'defaultAddr', 'city', 'state', 'zip', 'street');
+		return array('addr_id', 'uid', 'description', 'defaultAddr', 'zip', 'street');
 	}
 
 	/**
@@ -30,21 +30,21 @@ class Address extends Entity {
 		$attrs[$table]['uid']['type'] = "KEY";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['defaultAddr']['type'] = "INT(11)";
-		$attrs[$table]['city']['type'] = "TEXT";
-		$attrs[$table]['state']['type'] = "TEXT";
-		$attrs[$table]['zip']['type'] = "TEXT";
+		$attrs[$table]['zip']['type'] = "VARCHAR(5)";
 		$attrs[$table]['street']['type'] = "TEXT";
 
 		$attrs[$table]['addr_id']['restrictions'] = "AUTO_INCREMENT";
 		$attrs[$table]['uid']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultAddr']['restrictions'] = "NOT NULL";
-		$attrs[$table]['city']['restrictions'] = "NOT NULL";
-		$attrs[$table]['state']['restrictions'] = "NOT NULL";
 		$attrs[$table]['zip']['restrictions'] = "NOT NULL";
 		$attrs[$table]['street']['restrictions'] = "NOT NULL";
 
-		$attrs[$table]['FOREIGN']['keys'] = 'uid';
-		$attrs[$table]['FOREIGN']['ref'] = User::getTableName() . '(' . User::getPrimaryAttr() . ')';
+		$attrs[$table]['FOREIGN']['keys'] = array(
+			'uid',
+			'zip');
+		$attrs[$table]['FOREIGN']['ref'] = array(
+			User::getTableName() . '(' . User::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE',
+			Located::getTableName() . '(' . Located::getPrimaryAttr() . ') ON UPDATE RESTRICT ON DELETE RESTRICT');
 
 		return $attrs;
 	}

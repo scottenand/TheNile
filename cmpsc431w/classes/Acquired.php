@@ -27,15 +27,15 @@ class Acquired extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['acq_id']['type'] = "KEY";
-		$attrs[$table]['card_id']['type'] = "KEY";
+		$attrs[$table]['card_id']['type'] = "VARCHAR(16)";
 		$attrs[$table]['addr_id']['type'] = "KEY";
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
 			'card_id',
 			'addr_id');
 		$attrs[$table]['FOREIGN']['ref'] = array(
-			CreditCard::getTableName() . "(" . CreditCard::getPrimaryAttr() . ")",
-			Address::getTableName() . "(" . Address::getPrimaryAttr() . ")");
+			CreditCard::getTableName() . "(" . CreditCard::getPrimaryAttr() . ") ON UPDATE RESTRICT ON DELETE RESTRICT",
+			Address::getTableName() . "(" . Address::getPrimaryAttr() . ") ON UPDATE RESTRICT ON DELETE RESTRICT");
 
 		return $attrs;
 	}

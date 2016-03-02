@@ -36,7 +36,7 @@ class Company extends User {
 			'PoC');
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			parent::getTableName() . "(" . parent::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
-			Person::getTableName() . "(" . Person::getPrimaryAttr() . ")");
+			Person::getTableName() . "(" . Person::getPrimaryAttr() . ") ON UPDATE RESTRICT ON DELETE RESTRICT");
 
 		return $attrs;
 	}

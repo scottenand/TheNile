@@ -36,7 +36,7 @@ class ParentCategory extends Entity {
 			"parent");
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			Category::getTableName() . "(" . Category::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
-			Category::getTableName() . "(" . Category::getPrimaryAttr() . ") ON UPDATE CASCADE");
+			Category::getTableName() . "(" . Category::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT");
 
 		return $attrs;
 	}
