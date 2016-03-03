@@ -6,7 +6,7 @@ class Category extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('cid', 'name', 'description');
+		return array('name', 'description');
 	}
 
 	/**
@@ -26,12 +26,9 @@ class Category extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['cid']['type'] = "KEY";
-		$attrs[$table]['name']['type'] = "TEXT";
+		$attrs[$table]['name']['type'] = "VARCHAR(20)";
 		$attrs[$table]['description']['type'] = "TEXT";
 
-		$attrs[$table]['cid']['restrictions'] = "AUTO_INCREMENT";
-		$attrs[$table]['name']['restrictions'] = "NOT NULL";
 		$attrs[$table]['description']['restrictions'] = "NOT NULL";
 
 		return $attrs;
@@ -42,7 +39,7 @@ class Category extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "cid";
+		return "name";
 	}
 }
 
