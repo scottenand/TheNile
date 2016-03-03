@@ -26,8 +26,8 @@ class ParentCategory extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['child']['type'] = "KEY";
-		$attrs[$table]['parent']['type'] = "KEY";
+		$attrs[$table]['child']['type'] = "VARCHAR(20)";
+		$attrs[$table]['parent']['type'] = "VARCHAR(20)";
 
 		$attrs[$table]['parent']['restrictions'] = "NOT NULL";
 
