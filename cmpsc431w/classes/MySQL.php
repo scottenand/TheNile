@@ -7,9 +7,9 @@ class database {
 
 	public function __construct() {
 		$this->ip = "localhost";
-		$this->uname = "scott";
-		$this->upass = "password";
-		$this->dbName = "test";
+		$this->uname = "root";
+		$this->upass = "theNilePassword";
+		$this->dbName = "TheNile";
 		$this->handle = NULL;
 	}
 
