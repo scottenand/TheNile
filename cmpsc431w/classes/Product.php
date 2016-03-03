@@ -29,7 +29,7 @@ class Product extends Entity {
 		$attrs[$table]['location']['type'] = "TEXT";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['buy_out']['type'] = "REAL";
-		$attrs[$table]['sold_by']['type'] = "KEY";
+		$attrs[$table]['sold_by']['type'] = "VARCHAR(20)";
 		$attrs[$table]['img']['type'] = "TEXT";
 
 		$attrs[$table]['pid']['restrictions'] = "AUTO_INCREMENT";
