@@ -6,7 +6,7 @@ class PurchasedBy extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('pid', 'uid', 'time', 'unitPrice', 'qty', 'acq_id');
+		return array('pid', 'username', 'time', 'unitPrice', 'qty', 'acq_id');
 	}
 
 	/**
@@ -27,7 +27,7 @@ class PurchasedBy extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['pid']['type'] = "KEY";
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['unitPrice']['type'] = "REAL";
 		$attrs[$table]['qty']['type'] = "INT(11)";
 		$attrs[$table]['time']['type'] = "DATETIME";
@@ -35,7 +35,7 @@ class PurchasedBy extends Entity {
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
 			'pid',
-			'uid',
+			'username',
 			'acq_id');
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			Product::getTableName() . "(" . Product::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE RESTRICT",
@@ -50,7 +50,7 @@ class PurchasedBy extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "pid, uid, time";
+		return "pid, username, time";
 	}
 }
 
