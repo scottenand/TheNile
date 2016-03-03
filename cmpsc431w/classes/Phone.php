@@ -6,7 +6,7 @@ class Phone extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('pnum', 'uid', 'description', 'defaultPhone');
+		return array('pnum', 'username', 'description', 'defaultPhone');
 	}
 
 	/**
@@ -29,14 +29,14 @@ class Phone extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['pnum']['type'] = "VARCHAR(10)";
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['defaultPhone']['type'] = "INT(11)";
 
-		$attrs[$table]['uid']['restrictions'] = "NOT NULL";
+		$attrs[$table]['username']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultPhone']['restrictions'] = "NOT NULL";
 
-		$attrs[$table]['FOREIGN']['keys'] = 'uid';
+		$attrs[$table]['FOREIGN']['keys'] = 'username';
 		$attrs[$table]['FOREIGN']['ref'] = User::getTableName() . '(' . User::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE';
 
 		return $attrs;
