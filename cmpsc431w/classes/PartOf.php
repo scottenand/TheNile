@@ -6,7 +6,7 @@ class PartOf extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('cid', 'pid');
+		return array('category', 'pid');
 	}
 
 	/**
@@ -26,11 +26,11 @@ class PartOf extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['cid']['type'] = "KEY";
+		$attrs[$table]['category']['type'] = "VARCHAR(20)";
 		$attrs[$table]['pid']['type'] = "KEY";
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
-			"cid",
+			"category",
 			"pid");
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			Category::getTableName() . "(" . Category::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
@@ -44,7 +44,7 @@ class PartOf extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "cid,pid";
+		return "category, pid";
 	}
 }
 
