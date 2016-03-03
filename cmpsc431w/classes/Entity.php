@@ -76,7 +76,7 @@ abstract class Entity {
 						$tableArgs[$a] = $db->real_escape_string($v);
 					}
 				}
-				$r = $db->query("INSERT INTO " . $t . "(" . implode(',', array_keys($tableArgs)) . ") VALUES " . implode(',', $whereClause) . "';");
+				$r = $db->query("INSERT INTO " . $t . "(" . implode(',', array_keys($tableArgs)) . ") OUTPUT INSERTED.* VALUES " . implode(',', $whereClause) . "';");
 				if(!$r)
 					throw new Exception("Error saving this new provider: " . $r->getError());
 				$res = $r->fetchAll();
