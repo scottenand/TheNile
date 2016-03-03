@@ -6,7 +6,7 @@ class Company extends User {
 	}
 
 	public static function getAttributeList() {
-		return array_unique(array_merge(array('uid', 'company_cat', 'PoC'), parent::getAttributeList()));
+		return array_unique(array_merge(array('username', 'company_cat', 'PoC'), parent::getAttributeList()));
 	}
 
 	/**
@@ -24,7 +24,7 @@ class Company extends User {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['company_cat']['type'] = "TEXT";
 		$attrs[$table]['PoC']['type'] = "KEY";
 
@@ -32,7 +32,7 @@ class Company extends User {
 		$attrs[$table]['PoC']['restrictions'] = "NOT NULL";
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
-			'uid',
+			'username',
 			'PoC');
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			parent::getTableName() . "(" . parent::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
@@ -46,7 +46,7 @@ class Company extends User {
 	}
 
 	public static function getPrimaryAttr() {
-		return "uid";
+		return "username";
 	}
 }
 
