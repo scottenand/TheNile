@@ -6,6 +6,89 @@ abstract class Entity {
 	protected $attrs;
 
 	/**
+	 * __construct($args) : FULL constructor.
+	 * @param [ int | string | array ] $args : integer primary key or single dimensional array of attributes that define the class
+	 */
+	public function __construct($args) {
+		$info = static::getStaticSQLInfo();
+		$tables = array();
+		$temp = static::getTableName();
+		while($temp != "Entity") {
+			array_unshift($tables, $temp);
+			$temp = get_parent_class($temp);
+		}
+		$newProv = FALSE;
+
+		if(is_null($this->attrs))
+			$this->attrs = array();
+
+		if(is_int($args) OR is_string($args)) {
+			// LOAD FROM KEY
+			$db = new database();
+			foreach($tables as $t) {
+				$r = $db->query("SELECT * FROM " . $t . " WHERE " $t::getPrimaryAttr() "='" . $args . "';");
+				$res = $r->fetchAll();
+				if(count($res) == 1)
+					setAttrs($res[0]);
+				elseif(empty($res))
+					throw new Exception("No " . $t . "'s found where " . $t::getPrimaryAttr() . " = " . $args . ".");
+				else
+					throw new Exception("Multiple entries found.");
+			}
+		} else {
+			$allPrims = TRUE;
+			foreach($tables as $t) {
+				$primAttrs = $t::getPrimaryAttr();
+				if(count(explode(",", $primAttrs)) == count($args)) {
+					foreach(explode(", ", $primAttrs) as $a) {
+						if(!isset($args[$a])) {
+							$allPrims = FALSE;
+						}
+					}
+				}
+			}
+			if($allPrims == TRUE) {
+				$whereClause = array();
+				foreach($args as $a => $v) {
+					$whereClause[] = $a . "='" . $v . "'";
+				}
+				$db = new database();
+				$r = $db->query("SELECT * FROM " . $t . " WHERE " . implode(" AND ", $whereClause) . "';");
+				$res = $r->fetchAll();
+				if(count($res) == 1)
+					setAttrs($res[0]);
+				elseif(empty($res))
+					$newProv = TRUE;
+				else
+					throw new Exception("Multiple entries found.");
+			} else {
+				$newProv = TRUE;
+			}
+		}
+
+		if($newProv) {
+			foreach($table as $t) {
+				$tableArgs = array();
+				$db = new database();
+				$db->open();
+				foreach($args as $a => $v) {
+					if(isset($info[$t][$a])) {
+						$tableArgs[$a] = $db->real_escape_string($v);
+					}
+				}
+				$r = $db->query("INSERT INTO " . $t . "(" . implode(',', array_keys($tableArgs)) . ") VALUES " . implode(',', $whereClause) . "';");
+				if(!$r)
+					throw new Exception("Error saving this new provider: " . $r->getError());
+				$res = $r->fetchAll();
+				if(count($res) == 1)
+					setAttrs($res[0]);
+				else
+					throw new Exception("Error saving this new provider: " . $r->getError());
+			}
+		}
+	}
+
+	/**
 	 * static protected getPrimaryAttr : Returns string representation of this table's primary attribute.
 	 * @return string primary attribute(s) (commma , delimited for multiple attributes)
 	 */
@@ -47,56 +130,6 @@ abstract class Entity {
 
 	//abstract public function toString();
 	//abstract protected function toArray();
-
-
-	/**
-	 * __construct($args) : FULL constructor. No subclass needs to implement another constructor.
-	 * @param [ int | array ] $args : integer primary key or single dimensional array of attributes that define 
-	 */
-	public function __construct($args) {
-		$info = $this->getSQLInfo();
-
-		if(is_null($this->attrs))
-			$this->attrs = array();
-
-		$queries = array();
-
-		if(is_int($args)) {
-			// LOAD FROM KEY
-			foreach($info as $t => $tv) {
-				$queries[$t] = "SELECT * FROM " . $t . " WHERE " . $t::getPrimaryAttr() . "='" . $args . "';";
-			}
-		} else {
-			// NEW ENTRY
-			foreach($info as $t => $tv) {
-				$saveAttrs = array();
-				$outAttrs = array();
-				foreach($tv as $a => $av) {
-					if(isset($args[$a])) {
-						$saveAttrs[$a] = $args[$a];
-					} else {
-						if($av['restrictions'] == "NOT NULL")
-							throw new Exception("Required attribute " . $a . " not given for new entry of table " . $t);
-						$outAttrs[] = $a;
-					}
-				}
-				$queries[$t] = "INSERT INTO " . $t . "(" . implode(", ", array_keys($saveAttrs)) . ") OUTPUT INSERTED.* VALUES ('" . implode("', '", $saveAttrs) . "');";
-			}
-		}
-
-		$t = array(static::getTableName());
-		while(get_parent_class($t) != "Entity") {
-			array_unshift($t, get_parent_class($t));
-		}
-
-		$d = new database;
-		foreach($t as $table) {
-			// QUERY $queries[$t], fill in results.
-		}
-
-		// -----CONNECT TO DATABASE, SAVE------, SET ID TO MYSQL CREATED ID
-		// ^ saving has to be done in child class? NOPE :D
-	}
 
 	public function getID() {
 		if(count(explode(",", static::getPrimaryAttr())) == 1) {

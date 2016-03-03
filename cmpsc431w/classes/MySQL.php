@@ -7,9 +7,9 @@ class database {
 
 	public function __construct() {
 		$this->ip = "localhost";
-		$this->uname = "root";
-		$this->upass = "theNilePassword";
-		$this->dbName = "TheNile";
+		$this->uname = "scott";
+		$this->upass = "password";
+		$this->dbName = "test";
 		$this->handle = NULL;
 	}
 
@@ -36,6 +36,18 @@ class database {
 		if(!is_null($this->handle))
 			return $this->handle->errno;
 		return false;
+	}
+
+	public function real_escape_string($str) {
+		$close = false;
+		if(is_null($this->handle)) {
+			$this->open();
+			$close = true;
+		}
+		$ret = $this->handle->real_escape_string($q);
+		if($close)
+			$this->close();
+		return $ret;
 	}
 
 	public function query($q) {
