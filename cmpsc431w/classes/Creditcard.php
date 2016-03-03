@@ -6,7 +6,7 @@ class Creditcard extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('cardNum', 'uid', 'description', 'defaultCard', 'cardName', 'expDate', 'cardType');
+		return array('cardNum', 'username', 'description', 'defaultCard', 'cardName', 'expDate', 'cardType');
 	}
 
 	/**
@@ -27,20 +27,20 @@ class Creditcard extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['cardNum']['type'] = "VARCHAR(16)";
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['defaultCard']['type'] = "INT(11)";
 		$attrs[$table]['cardName']['type'] = "TEXT";
 		$attrs[$table]['expDate']['type'] = "DATE";
 		$attrs[$table]['cardType']['type'] = "TEXT";
 
-		$attrs[$table]['uid']['restrictions'] = "NOT NULL";
+		$attrs[$table]['username']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultCard']['restrictions'] = "NOT NULL";
 		$attrs[$table]['cardName']['restrictions'] = "NOT NULL";
 		$attrs[$table]['expDate']['restrictions'] = "NOT NULL";
 		$attrs[$table]['cardType']['restrictions'] = "NOT NULL";
 
-		$attrs[$table]['FOREIGN']['keys'] = 'uid';
+		$attrs[$table]['FOREIGN']['keys'] = 'username';
 		$attrs[$table]['FOREIGN']['ref'] = User::getTableName() . '(' . User::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE';
 
 		return $attrs;
