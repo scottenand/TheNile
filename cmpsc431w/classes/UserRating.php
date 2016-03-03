@@ -26,8 +26,8 @@ class UserRating extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['rater']['type'] = "KEY";
-		$attrs[$table]['ratee']['type'] = "KEY";
+		$attrs[$table]['rater']['type'] = "VARCHAR(20)";
+		$attrs[$table]['ratee']['type'] = "VARCHAR(20)";
 		$attrs[$table]['rating']['type'] = "INT(11)";
 		$attrs[$table]['description']['type'] = "TEXT";
 
