@@ -6,7 +6,7 @@ class Person extends User {
 	}
 
 	public static function getAttributeList() {
-		return array_merge(array('uid', 'gender', 'bday'), parent::getAttributeList());
+		return array_unique(array_merge(array('uid', 'gender', 'bday'), parent::getAttributeList()));
 	}
 
 	/**

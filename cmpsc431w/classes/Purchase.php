@@ -6,7 +6,7 @@ class Purchase extends Product {
 	}
 
 	public static function getAttributeList() {
-		return array_merge(array('pid', 'qty'), parent::getAttributeList());
+		return array_unique(array_merge(array('pid', 'qty'), parent::getAttributeList()));
 	}
 
 	/**

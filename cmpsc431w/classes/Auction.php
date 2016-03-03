@@ -6,7 +6,7 @@ class Auction extends Product {
 	}
 
 	public static function getAttributeList() {
-		return array_merge(array('pid', 'minPrice', 'startTime', 'endTime'), parent::getAttributeList());
+		return array_unique(array_merge(array('pid', 'minPrice', 'startTime', 'endTime'), parent::getAttributeList()));
 	}
 
 	/**

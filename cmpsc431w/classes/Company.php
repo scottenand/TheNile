@@ -6,7 +6,7 @@ class Company extends User {
 	}
 
 	public static function getAttributeList() {
-		return array_merge(array('uid', 'company_cat', 'PoC'), parent::getAttributeList());
+		return array_unique(array_merge(array('uid', 'company_cat', 'PoC'), parent::getAttributeList()));
 	}
 
 	/**
