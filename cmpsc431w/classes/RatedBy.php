@@ -6,7 +6,7 @@ class RatedBy extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('pid', 'uid', 'rating', 'description', 'time');
+		return array('pid', 'username', 'rating', 'description', 'time');
 	}
 
 	/**
@@ -27,14 +27,14 @@ class RatedBy extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['pid']['type'] = "KEY";
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['rating']['type'] = "INT(11)";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['time']['type'] = "DATETIME";
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
 			"pid",
-			"uid");
+			"username");
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			Product::getTableName() . "(" . Product::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE",
 			User::getTableName() . "(" . User::getPrimaryAttr() . ") ON UPDATE CASCADE ON DELETE CASCADE");
@@ -47,7 +47,7 @@ class RatedBy extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "pid, uid";
+		return "pid, username";
 	}
 }
 
