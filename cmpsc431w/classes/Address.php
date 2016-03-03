@@ -6,7 +6,7 @@ class Address extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('addr_id', 'uid', 'description', 'defaultAddr', 'zip', 'street');
+		return array('addr_id', 'username', 'description', 'defaultAddr', 'zip', 'street');
 	}
 
 	/**
@@ -27,20 +27,20 @@ class Address extends Entity {
 		$table = self::getTableName();
 
 		$attrs[$table]['addr_id']['type'] = "KEY";
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['description']['type'] = "TEXT";
 		$attrs[$table]['defaultAddr']['type'] = "INT(11)";
 		$attrs[$table]['zip']['type'] = "VARCHAR(5)";
 		$attrs[$table]['street']['type'] = "TEXT";
 
 		$attrs[$table]['addr_id']['restrictions'] = "AUTO_INCREMENT";
-		$attrs[$table]['uid']['restrictions'] = "NOT NULL";
+		$attrs[$table]['userame']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultAddr']['restrictions'] = "NOT NULL";
 		$attrs[$table]['zip']['restrictions'] = "NOT NULL";
 		$attrs[$table]['street']['restrictions'] = "NOT NULL";
 
 		$attrs[$table]['FOREIGN']['keys'] = array(
-			'uid',
+			'username',
 			'zip');
 		$attrs[$table]['FOREIGN']['ref'] = array(
 			User::getTableName() . '(' . User::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE',
