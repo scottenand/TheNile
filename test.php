@@ -10,6 +10,7 @@ $income = $_POST["income"];
 
 // Create connection
 $conn = new database();
+$conn->open()
 
 $sql = "INSERT INTO User (name, email, username,password,income)
 VALUES ('".$name."','".$email."','".$username."','".$password."','".$income."')";
@@ -17,7 +18,8 @@ VALUES ('".$name."','".$email."','".$username."','".$password."','".$income."')"
 if ($conn->query($sql)) {
     echo "New record created successfully";
 } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    echo "Error: " . $sql . "<br>" . $conn->getError();
 }
+$conn->close()
 
  ?>
