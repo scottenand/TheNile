@@ -67,6 +67,9 @@ After all of that is done you can go to firefox (or any other browser) type loca
 
 (In a few days we will add phpmyadmin functionality to ease this process)
 
+Remember to join the slack team thenile-team.slack.com
+
+
 ## Classes:
 database<br />
 Entity<br />
