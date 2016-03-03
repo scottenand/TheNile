@@ -6,7 +6,7 @@ class Person extends User {
 	}
 
 	public static function getAttributeList() {
-		return array_unique(array_merge(array('uid', 'gender', 'bday'), parent::getAttributeList()));
+		return array_unique(array_merge(array('username', 'gender', 'bday'), parent::getAttributeList()));
 	}
 
 	/**
@@ -24,11 +24,11 @@ class Person extends User {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['gender']['type'] = "TEXT";
 		$attrs[$table]['bday']['type'] = "DATETIME";
 
-		$attrs[$table]['FOREIGN']['keys'] = 'uid';
+		$attrs[$table]['FOREIGN']['keys'] = 'username';
 		$attrs[$table]['FOREIGN']['ref'] = parent::getTableName() . '(' . parent::getPrimaryAttr() . ') ON UPDATE CASCADE ON DELETE CASCADE';
 
 		return $attrs;
@@ -39,7 +39,7 @@ class Person extends User {
 	}
 
 	public static function getPrimaryAttr() {
-		return "uid";
+		return "username";
 	}
 }
 
