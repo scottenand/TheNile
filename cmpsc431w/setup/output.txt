@@ -1,0 +1,166 @@
+Table User created!
+Table Person created!
+Table Company created!
+Table Located created!
+Table Address created!
+Table Phone created!
+Table Creditcard created!
+Table UserRating created!
+Table Product created!
+Table Purchase created!
+Table Auction created!
+Table Category created!
+Table PartOf created!
+Table ParentCategory created!
+Table RatedBy created!
+Table Acquired created!
+Table PurchasedBy created!
+
+
+
+
+
+
+
+User(username, name, email, password, income)
+Person(username, gender, bday, name, email, password, income)
+Company(username, company_cat, PoC, name, email, password, income)
+Located(zip, city, state)
+Address(addr_id, username, description, defaultAddr, zip, street)
+Phone(pnum, username, description, defaultPhone)
+Creditcard(cardNum, username, description, defaultCard, cardName, expDate, cardType)
+UserRating(rater, ratee, rating, description)
+Product(pid, pname, location, description, buy_out, sold_by, img)
+Purchase(pid, qty, pname, location, description, buy_out, sold_by, img)
+Auction(pid, minPrice, startTime, endTime, pname, location, description, buy_out, sold_by, img)
+Category(name, description)
+PartOf(category, pid)
+ParentCategory(child, parent)
+RatedBy(pid, username, rating, description, time)
+Acquired(acq_id, card_id, addr_id)
+PurchasedBy(pid, username, time, unitPrice, qty, acq_id)
+
+CREATE TABLE User(username VARCHAR(20),
+	name TEXT NOT NULL,
+	email TEXT NOT NULL,
+	password TEXT NOT NULL,
+	income REAL,
+	PRIMARY KEY (username));
+
+CREATE TABLE Person(username VARCHAR(20),
+	gender TEXT,
+	bday DATETIME,
+	PRIMARY KEY (username),
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Company(username VARCHAR(20),
+	company_cat TEXT NOT NULL,
+	PoC VARCHAR(20) NOT NULL,
+	PRIMARY KEY (username),
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (PoC) REFERENCES Person(username) ON UPDATE RESTRICT ON DELETE RESTRICT);
+
+CREATE TABLE Located(zip VARCHAR(5),
+	city TEXT NOT NULL,
+	state TEXT NOT NULL,
+	PRIMARY KEY (zip));
+
+CREATE TABLE Address(addr_id INT(11) UNSIGNED AUTO_INCREMENT,
+	username VARCHAR(20) NOT NULL,
+	description TEXT,
+	defaultAddr INT(11) NOT NULL,
+	zip VARCHAR(5) NOT NULL,
+	street TEXT NOT NULL,
+	PRIMARY KEY (addr_id),
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (zip) REFERENCES Located(zip) ON UPDATE RESTRICT ON DELETE RESTRICT);
+
+CREATE TABLE Phone(pnum VARCHAR(10),
+	username VARCHAR(20) NOT NULL,
+	description TEXT,
+	defaultPhone INT(11) NOT NULL,
+	PRIMARY KEY (pnum),
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Creditcard(cardNum VARCHAR(16),
+	username VARCHAR(20) NOT NULL,
+	description TEXT,
+	defaultCard INT(11) NOT NULL,
+	cardName TEXT NOT NULL,
+	expDate DATE NOT NULL,
+	cardType TEXT NOT NULL,
+	PRIMARY KEY (cardNum),
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE UserRating(rater VARCHAR(20),
+	ratee VARCHAR(20),
+	rating INT(11),
+	description TEXT,
+	PRIMARY KEY (rater, ratee),
+	FOREIGN KEY (rater) REFERENCES User(username) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (ratee) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Product(pid INT(11) UNSIGNED AUTO_INCREMENT,
+	pname TEXT NOT NULL,
+	location TEXT,
+	description TEXT NOT NULL,
+	buy_out REAL NOT NULL,
+	sold_by VARCHAR(20) NOT NULL,
+	img TEXT,
+	PRIMARY KEY (pid),
+	FOREIGN KEY (sold_by) REFERENCES User(username) ON UPDATE CASCADE ON DELETE RESTRICT);
+
+CREATE TABLE Purchase(pid INT(11) UNSIGNED,
+	qty INT(11),
+	PRIMARY KEY (pid),
+	FOREIGN KEY (pid) REFERENCES Product(pid) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Auction(pid INT(11) UNSIGNED,
+	minPrice REAL,
+	startTime DATETIME,
+	endTime DATETIME,
+	PRIMARY KEY (pid),
+	FOREIGN KEY (pid) REFERENCES Product(pid) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Category(name VARCHAR(20),
+	description TEXT NOT NULL,
+	PRIMARY KEY (name));
+
+CREATE TABLE PartOf(category VARCHAR(20),
+	pid INT(11) UNSIGNED,
+	PRIMARY KEY (category, pid),
+	FOREIGN KEY (category) REFERENCES Category(name) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (pid) REFERENCES Product(pid) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE ParentCategory(child VARCHAR(20),
+	parent VARCHAR(20) NOT NULL,
+	PRIMARY KEY (child),
+	FOREIGN KEY (child) REFERENCES Category(name) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (parent) REFERENCES Category(name) ON UPDATE CASCADE ON DELETE RESTRICT);
+
+CREATE TABLE RatedBy(pid INT(11) UNSIGNED,
+	username VARCHAR(20),
+	rating INT(11),
+	description TEXT,
+	time DATETIME,
+	PRIMARY KEY (pid, username),
+	FOREIGN KEY (pid) REFERENCES Product(pid) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE Acquired(acq_id INT(11) UNSIGNED,
+	card_id VARCHAR(16),
+	addr_id INT(11) UNSIGNED,
+	PRIMARY KEY (acq_id),
+	FOREIGN KEY (card_id) REFERENCES Creditcard(cardNum) ON UPDATE RESTRICT ON DELETE RESTRICT,
+	FOREIGN KEY (addr_id) REFERENCES Address(addr_id) ON UPDATE RESTRICT ON DELETE RESTRICT);
+
+CREATE TABLE PurchasedBy(pid INT(11) UNSIGNED,
+	username VARCHAR(20),
+	unitPrice REAL,
+	qty INT(11),
+	time DATETIME,
+	acq_id INT(11) UNSIGNED,
+	PRIMARY KEY (pid, username, time),
+	FOREIGN KEY (pid) REFERENCES Product(pid) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (username) REFERENCES User(username) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (acq_id) REFERENCES Acquired(acq_id) ON UPDATE CASCADE ON DELETE RESTRICT);

@@ -26,7 +26,7 @@ class Company extends User {
 
 		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['company_cat']['type'] = "TEXT";
-		$attrs[$table]['PoC']['type'] = "KEY";
+		$attrs[$table]['PoC']['type'] = "VARCHAR(20)";
 
 		$attrs[$table]['company_cat']['restrictions'] = "NOT NULL";
 		$attrs[$table]['PoC']['restrictions'] = "NOT NULL";

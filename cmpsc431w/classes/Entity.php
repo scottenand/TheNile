@@ -26,7 +26,7 @@ abstract class Entity {
 			// LOAD FROM KEY
 			$db = new database();
 			foreach($tables as $t) {
-				$r = $db->query("SELECT * FROM " . $t . " WHERE " $t::getPrimaryAttr() "='" . $args . "';");
+				$r = $db->query("SELECT * FROM " . $t . " WHERE ". $t::getPrimaryAttr() ."='" . $args . "';");
 				$res = $r->fetchAll();
 				if(count($res) == 1)
 					setAttrs($res[0]);

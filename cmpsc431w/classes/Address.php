@@ -34,7 +34,7 @@ class Address extends Entity {
 		$attrs[$table]['street']['type'] = "TEXT";
 
 		$attrs[$table]['addr_id']['restrictions'] = "AUTO_INCREMENT";
-		$attrs[$table]['userame']['restrictions'] = "NOT NULL";
+		$attrs[$table]['username']['restrictions'] = "NOT NULL";
 		$attrs[$table]['defaultAddr']['restrictions'] = "NOT NULL";
 		$attrs[$table]['zip']['restrictions'] = "NOT NULL";
 		$attrs[$table]['street']['restrictions'] = "NOT NULL";
