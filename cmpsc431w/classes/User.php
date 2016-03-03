@@ -6,7 +6,7 @@ class User extends Entity {
 	}
 
 	public static function getAttributeList() {
-		return array('uid', 'name', 'email', 'username', 'password', 'income');
+		return array('username', 'name', 'email', 'password', 'income');
 	}
 
 	/**
@@ -26,17 +26,14 @@ class User extends Entity {
 		$attrs = array();
 		$table = self::getTableName();
 
-		$attrs[$table]['uid']['type'] = "KEY";
+		$attrs[$table]['username']['type'] = "VARCHAR(20)";
 		$attrs[$table]['name']['type'] = "TEXT";
 		$attrs[$table]['email']['type'] = "TEXT";
-		$attrs[$table]['username']['type'] = "TEXT";
 		$attrs[$table]['password']['type'] = "TEXT";
 		$attrs[$table]['income']['type'] = "REAL";
 
-		$attrs[$table]['uid']['restrictions'] = "AUTO_INCREMENT";
 		$attrs[$table]['name']['restrictions'] = "NOT NULL";
 		$attrs[$table]['email']['restrictions'] = "NOT NULL";
-		$attrs[$table]['username']['restrictions'] = "NOT NULL";
 		$attrs[$table]['password']['restrictions'] = "NOT NULL";
 
 		return $attrs;
@@ -47,7 +44,7 @@ class User extends Entity {
 	}
 
 	public static function getPrimaryAttr() {
-		return "uid";
+		return "username";
 	}
 }
 
